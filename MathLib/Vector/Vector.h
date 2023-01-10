@@ -10,15 +10,16 @@ private:
     float values[M] {};
 public:
     Vector() {};
-    template<float... Ts> requires (sizeof...(Ts) == M)
-        Vector(Ts &&... ts) : values{ts...}
+    template<std::convertible_to<float>... Ts> requires (sizeof...(Ts) == M)
+        Vector(Ts &&... ts) : values{ ts... } {}
 
-    Vector(const float* values) {
+    /*Vector(const float* values) {
         for (int i = 0; i < M; i++)
         {
             this->values[i] = values[i];
         }
-    };
+        
+    };*/
 
     void print() const {
         std::cout << std::fixed << this << ":{";
@@ -30,9 +31,9 @@ public:
         std::cout << "}" << std::endl;
     }
 
-    Vector crossProduct(Vector<3>& vector) requires (M == 3) {
+    /*Vector crossProduct(Vector<3>& vector) requires (M == 3) {
         return Vector<3> vec{};
-    }
+    }*/
 
     float length() const {
         return std::sqrt(squareLength());
