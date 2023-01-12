@@ -11,7 +11,7 @@ private:
 public:
     Vector() {};
     template<std::convertible_to<float>... Ts> requires (sizeof...(Ts) == M)
-        Vector(Ts &&... ts) : values{ ts... } {}
+        Vector(Ts &&... ts) : values{ ts... } {};
 
     /*Vector(const float* values) {
         for (int i = 0; i < M; i++)
@@ -142,6 +142,10 @@ public:
             values[i] /= vector[i];
         }
         return *this;
+    }
+
+    float& operator[](int index) {
+        return values[index];
     }
 
     float operator[](int index) const {
