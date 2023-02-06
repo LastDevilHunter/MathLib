@@ -13,7 +13,7 @@ public:
 		real = 0;
 		imaginary = 0;
 	}
-	Complex(float real, float imaginary) : real{ real }, imaginary { imaginary } {}
+	Complex(float real, float imaginary) : real{ real }, imaginary{ imaginary } {}
 
 	void print() {
 		std::cout << this << ":{real: " << real << ", imaginary: " << imaginary << "}" << std::endl;
