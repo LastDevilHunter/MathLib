@@ -13,29 +13,38 @@ int main()
 	(c1 + c2).print();
 	c1.print();
 	c2.print();*/
-	Matrix<2, 2> mat;
+
+	/*Complex c{1, 2};
+	Complex c1 = c.getConjugate();
+	c.print();
+	c1.print();
+	(c * c1).print();
+	float magnitude = c.absolute();
+	printf("|c| = %f", magnitude);*/
+
+	/*Matrix<2, 2> mat;
 	mat[0][0] = 1;
-	mat[0][1] = 2;
-	mat[1][0] = 3;
+	mat[0][1] = -2;
+	mat[1][0] = 2;
 	mat[1][1] = 4;
-	auto arr = mat.computeEigenvalues2x2();
-	std::get<0>(arr).print();
-	std::get<1>(arr).print();
-	/*Vector<3> v1 {1, 2, 3};
-	Vector<3> v2 {4, 5, 6};
+	array arr = mat.computeEigenvalues2x2();
+	arr.at(0).print();
+	arr.at(1).print();*/
+
+	Vector<3> v1 {1.f, 2.f, 3.f};
+	Vector<3> v2 {4.f, 5.f, 6.f};
 	cout << "Vector 1:" << endl;
 	v1.print();
 	cout << "Vector 2:" << endl;
 	v2.print();
 	cout << "Addition:" << endl;
-	Vector<3> v3 = v1 + 2;
-	v3.print();
+	(v1 + v2).print();
 	cout << "Subtraction:" << endl;
-	(v1 - 2).print();
+	(v1 - v2).print();
 	cout << "Multiplication:" << endl;
-	(v1 * 2).print();
+	(v1 * v2).print();
 	cout << "Division:" << endl;
-	(v1 / 2).print();*/
+	(v1 / v2).print();
 
 	/*INPUT input[2]{};
 	input[0].type = INPUT_KEYBOARD;

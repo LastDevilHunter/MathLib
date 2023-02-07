@@ -9,18 +9,28 @@ private:
 	float real;
 	float imaginary;
 public:
-	Complex() {
-		real = 0;
-		imaginary = 0;
-	}
+	Complex() : real{}, imaginary{} {}
+	Complex(float value) : real{value}, imaginary{} {}
 	Complex(float real, float imaginary) : real{ real }, imaginary{ imaginary } {}
 
 	void print() {
 		std::cout << this << ":{real: " << real << ", imaginary: " << imaginary << "}" << std::endl;
 	}
 
-	float magnitude() {
+	float absolute() const {
 		return sqrt(real * real + imaginary * imaginary);
+	}
+
+	float absoluteSquared() const {
+		return real * real + imaginary * imaginary;
+	}
+
+	bool isReal() const {
+		return imaginary == 0;
+	}
+
+	Complex getConjugate() const {
+		return Complex{ real, -imaginary };
 	}
 
 	Complex operator+(const float number) const {
@@ -67,10 +77,11 @@ public:
 		return Complex{ *this } *= complex;
 	}
 	Complex& operator*=(const Complex& complex) {
+		float temp = real;
 		real *= complex.real;
 		real -= imaginary * complex.imaginary;
 		imaginary *= complex.real;
-		imaginary += real * complex.imaginary;
+		imaginary += temp * complex.imaginary;
 		return *this;
 	}
 
@@ -81,6 +92,24 @@ public:
 		real /= number;
 		imaginary /= number;
 		return *this;
+	}
+	Complex operator/(const Complex& complex) const {
+		return Complex{ *this } /= complex;
+	}
+	Complex& operator/=(const Complex& complex) {
+		float temp = real;
+		float absSquare = complex.absoluteSquared();
+		real *= complex.real;
+		real += imaginary * complex.imaginary;
+		real /= absSquare;
+		imaginary *= complex.real;
+		imaginary -= temp * complex.imaginary;
+		imaginary /= absSquare;
+		return *this;
+	}
+
+	friend std::ostream& operator<<(std::ostream& os, const Complex& complex) {
+		return os << std::fixed << &complex << ":{real: " << complex.real << ", imaginary: " << complex.imaginary << "}";
 	}
 };
 

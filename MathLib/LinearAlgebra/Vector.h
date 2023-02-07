@@ -3,40 +3,42 @@
 #define VECTOR
 
 #include <iostream>
+#include "Complex.h"
 
 template <int M> class Vector {
 private:
-    float values[M] {};
+    Complex values[M] {};
 public:
-    Vector() {}
-    template<std::convertible_to<float>... Ts> requires (sizeof...(Ts) <= M)
-        Vector(Ts &&... ts) : values{ static_cast<float>(ts)...} {};
+    Vector() {} 
+    template<std::convertible_to<Complex>... Ts> requires (sizeof...(Ts) <= M)
+        Vector(Ts &&... ts) : values{ static_cast<Complex>(ts)...} {};
 
     void print() const {
-        std::cout << std::fixed << this << ":{";
+        std::cout << std::fixed << this << ":{\n";
         for (int i = 0; i < M; i++) {
-            if (i != 0) std::cout << ", ";
+            if (i != 0) std::cout << ", \n";
             std::cout << values[i];
         }
-        std::cout << "}" << std::endl;
+        std::cout << "\n}" << std::endl;
     }
 
     Vector<3> crossProduct(const Vector<3>& vector) const requires (M == 3) {
         return Vector<3>{values[1] * vector[2] - values[2] * vector[1],
                         values[2] * vector[0] - values[0] * vector[2],
                         values[0] * vector[1] - values[1] * vector[0]};
+        //TODO: Not correct for complex numbers
     }
 
-    float dotProduct(const Vector<M> vector) const {
-        float sum = 0;
+    Complex dotProduct(const Vector<M>& vector) const {
+        Complex sum = 0;
         for (int i = 0; i < M; i++) {
-            sum += values[i] * vector[i];
+            sum += values[i] * vector[i].getConjugate();
         }
         return sum;
     }
 
     Vector<M>& normalize() {
-        float length = length();
+        float length = this->length();
         for (int i = 0; i < length; i++)
         {
             values[i] /= length;
@@ -46,7 +48,7 @@ public:
 
     Vector<M> getNormalized() const {
         Vector<M> vec{ *this };
-        float length = length();
+        float length = this->length();
         for (int i = 0; i < length; i++)
         {
             vec[i] /= length;
@@ -61,7 +63,7 @@ public:
     float squareLength() const {
         float sum{};
         for (int i = 0; i < M; i++) {
-            sum += values[i] * values[i];
+            sum += values[i].absoluteSquared();
         }
         return sum;
     }
@@ -142,11 +144,11 @@ public:
         return *this;
     }
 
-    float& operator[](const int index) {
+    Complex& operator[](const int index) {
         return values[index];
     }
 
-    float operator[](const int index) const {
+    Complex operator[](const int index) const {
         return values[index];
     }
 };

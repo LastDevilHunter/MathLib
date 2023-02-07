@@ -12,7 +12,7 @@ private:
 public:
 	Matrix() {}
 
-	std::tuple<Complex, Complex> computeEigenvalues2x2() const requires (M == 2 && N == 2) {
+	std::array<Complex, 2> computeEigenvalues2x2() const requires (M == 2 && N == 2) {
 		float b = -values[0][0] - values[1][1];
 		float discriminant = b * b - 4 * determinant2x2();
 		printf("b: %f\n", b);
@@ -26,6 +26,10 @@ public:
 			return { Complex {(-b + root) / 2, 0}, Complex {(-b - root) / 2, 0} };
 		}
 	}
+
+	//std::array<Vector<2>, 2> computeEigenvectors2x2(float eigenvalue) const requires (M == 2 && N == 2) {
+	//	return { Vector{ value[0][1], eigenvalue - value[0][1] }, Vector{ eigenvalue - value[1][1], value[1][0] } };
+	//}
 
 	float determinant2x2() const requires (M == 2 && N == 2) {
 		return values[0][0] * values[1][1] - values[0][1] * values[1][0];
