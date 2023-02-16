@@ -5,13 +5,13 @@
 #include <iostream>
 #include "Complex.h"
 
-template <int M> class Vector {
+template <typename T, int M> class Vector {
 private:
-    Complex values[M] {};
+    T values[M] {};
 public:
     Vector() {} 
-    template<std::convertible_to<Complex>... Ts> requires (sizeof...(Ts) <= M)
-        Vector(Ts &&... ts) : values{ static_cast<Complex>(ts)...} {};
+    template<std::convertible_to<T>... Ts> requires (sizeof...(Ts) <= M)
+        Vector(Ts &&... ts) : values{ static_cast<T>(ts)...} {};
 
     void print() const {
         std::cout << std::fixed << this << ":{\n";
@@ -22,17 +22,21 @@ public:
         std::cout << "\n}" << std::endl;
     }
 
-    Vector<3> crossProduct(const Vector<3>& vector) const requires (M == 3) {
-        return Vector<3>{values[1] * vector[2] - values[2] * vector[1],
+    Vector<T, 3> crossProduct(const Vector<T, 3>& vector) const requires (M == 3 && (T == float || T == double)) {
+        return Vector<T, 3>{values[1] * vector[2] - values[2] * vector[1],
                         values[2] * vector[0] - values[0] * vector[2],
                         values[0] * vector[1] - values[1] * vector[0]};
         //TODO: Not correct for complex numbers
     }
 
-    Complex dotProduct(const Vector<M>& vector) const {
-        Complex sum = 0;
+    T dotProduct(const Vector<T, M>& vector) const {
+        T sum = 0;
         for (int i = 0; i < M; i++) {
-            sum += values[i] * vector[i].getConjugate();
+            if (T == Complex) {
+                sum += values[i] * vector[i].getConjugate();
+            } else {
+                sum += values[i] * vector[i];
+            }
         }
         return sum;
     }
